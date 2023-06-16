@@ -1,7 +1,7 @@
 package com.bezkoder.spring.jpa.postgresql.controller;
 
-import com.bezkoder.spring.jpa.postgresql.model.Fii;
-import com.bezkoder.spring.jpa.postgresql.service.FiiService;
+import com.bezkoder.spring.jpa.postgresql.model.FundoImobiliario;
+import com.bezkoder.spring.jpa.postgresql.service.FundoImobiliarioService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,26 +15,26 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/api/v1")
-public class FiiController {
-	private final FiiService fiiService;
+public class FundoImobiliarioController {
+	private final FundoImobiliarioService fundoImobiliarioService;
 
 	@Autowired
-	public FiiController(FiiService fiiService) {
-		this.fiiService = fiiService;
+	public FundoImobiliarioController(FundoImobiliarioService fundoImobiliarioService) {
+		this.fundoImobiliarioService = fundoImobiliarioService;
 	}
 
 	@GetMapping("/fiis")
-	public ResponseEntity<List<Fii>> getAllFiis() {
+	public ResponseEntity<List<FundoImobiliario>> getAllFiis() {
 		try {
-			List<Fii> fiis = new ArrayList<Fii>();
+			List<FundoImobiliario> fundoImobiliarios = new ArrayList<FundoImobiliario>();
 
-			fiiService.findAll().forEach(fiis::add);
+			fundoImobiliarioService.findAll().forEach(fundoImobiliarios::add);
 
-			if (fiis.isEmpty()) {
+			if (fundoImobiliarios.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
 
-			return new ResponseEntity<>(fiis, HttpStatus.OK);
+			return new ResponseEntity<>(fundoImobiliarios, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -42,12 +42,12 @@ public class FiiController {
 
 	@PostMapping("/atualizarFiis")
 	public void atualizarFiis(@RequestBody String listaFiis) throws JsonProcessingException {
-		fiiService.atualizarFiis(listaFiis);
+		fundoImobiliarioService.atualizarFiis(listaFiis);
 	}
 
 	@GetMapping("/fiis/{id}")
-	public ResponseEntity<Fii> getFiiByTicker(@PathVariable("id") String id) {
-		Optional<Fii> fiiData = fiiService.findById(id);
+	public ResponseEntity<FundoImobiliario> getFiiByTicker(@PathVariable("id") String id) {
+		Optional<FundoImobiliario> fiiData = fundoImobiliarioService.findById(id);
 
 		if (fiiData.isPresent()) {
 			return new ResponseEntity<>(fiiData.get(), HttpStatus.OK);
@@ -57,10 +57,10 @@ public class FiiController {
 	}
 
 	@PostMapping("/fiis")
-	public ResponseEntity<Fii> createFii(@RequestBody Fii fii) {
+	public ResponseEntity<FundoImobiliario> createFii(@RequestBody FundoImobiliario fundoImobiliario) {
 		try {
-			Fii _fii = fiiService.save(fii);
-			return new ResponseEntity<>(_fii, HttpStatus.CREATED);
+			FundoImobiliario _fundoImobiliario = fundoImobiliarioService.save(fundoImobiliario);
+			return new ResponseEntity<>(_fundoImobiliario, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -69,7 +69,7 @@ public class FiiController {
 	@DeleteMapping("/fiis/{id}")
 	public ResponseEntity<HttpStatus> deleteFii(@PathVariable("id") String id) {
 		try {
-			fiiService.deleteById(id);
+			fundoImobiliarioService.deleteById(id);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -79,7 +79,7 @@ public class FiiController {
 	@DeleteMapping("/fiis")
 	public ResponseEntity<HttpStatus> deleteAllFiis() {
 		try {
-			fiiService.deleteAll();
+			fundoImobiliarioService.deleteAll();
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

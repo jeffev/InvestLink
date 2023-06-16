@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "fiis")
-public class Fii {
+public class FundoImobiliario {
     private int companyid;
     private String companyname;
 
