@@ -1,4 +1,4 @@
-package com.bezkoder.spring.jpa.postgresql.utils;
+package com.bezkoder.spring.jpa.postgresql.resources;
 
 import com.bezkoder.spring.jpa.postgresql.model.User;
 

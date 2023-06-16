@@ -1,4 +1,4 @@
-package com.bezkoder.spring.jpa.postgresql.configuration;
+package com.bezkoder.spring.jpa.postgresql.resources;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

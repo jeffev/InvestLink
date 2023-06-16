@@ -1,7 +1,7 @@
 package com.bezkoder.spring.jpa.postgresql.controller;
 
 import com.bezkoder.spring.jpa.postgresql.model.User;
-import com.bezkoder.spring.jpa.postgresql.utils.JwtGeneratorInterface;
+import com.bezkoder.spring.jpa.postgresql.resources.JwtGeneratorInterface;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;

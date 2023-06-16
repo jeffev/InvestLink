@@ -3,7 +3,7 @@ package com.bezkoder.spring.jpa.postgresql.controller;
 import com.bezkoder.spring.jpa.postgresql.model.User;
 import com.bezkoder.spring.jpa.postgresql.model.UserNotFoundException;
 import com.bezkoder.spring.jpa.postgresql.service.UserService;
-import com.bezkoder.spring.jpa.postgresql.utils.JwtGeneratorInterface;
+import com.bezkoder.spring.jpa.postgresql.resources.JwtGeneratorInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

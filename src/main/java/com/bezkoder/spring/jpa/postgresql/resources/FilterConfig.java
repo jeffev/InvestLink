@@ -1,4 +1,4 @@
-package com.bezkoder.spring.jpa.postgresql.configuration;
+package com.bezkoder.spring.jpa.postgresql.resources;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

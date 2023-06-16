@@ -2,7 +2,7 @@ package com.bezkoder.spring.jpa.postgresql.service;
 
 import com.bezkoder.spring.jpa.postgresql.model.Acao;
 import com.bezkoder.spring.jpa.postgresql.repository.AcaoRepository;
-import com.bezkoder.spring.jpa.postgresql.utils.Utils;
+import com.bezkoder.spring.jpa.postgresql.resources.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

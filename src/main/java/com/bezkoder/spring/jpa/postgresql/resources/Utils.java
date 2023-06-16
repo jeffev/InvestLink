@@ -1,4 +1,4 @@
-package com.bezkoder.spring.jpa.postgresql.utils;
+package com.bezkoder.spring.jpa.postgresql.resources;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
