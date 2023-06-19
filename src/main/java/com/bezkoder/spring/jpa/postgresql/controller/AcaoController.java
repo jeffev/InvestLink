@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/acoes")
 public class AcaoController {
 	private final AcaoService acaoService;
 
@@ -25,7 +25,7 @@ public class AcaoController {
 		this.acaoService = acaoService;
 	}
 
-	@GetMapping("/acoes")
+	@GetMapping("")
 	public ResponseEntity<List<Acao>> getAllAcoes() {
 		try {
 			List<Acao> acoes = new ArrayList<Acao>();
@@ -47,7 +47,7 @@ public class AcaoController {
 		acaoService.atualizarAcoes(file);
 	}
 
-	@GetMapping("/acoes/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Acao> getAcaoByTicker(@PathVariable("id") String id) {
 		Optional<Acao> acaoData = acaoService.findById(id);
 
@@ -56,37 +56,6 @@ public class AcaoController {
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-	}
-
-	@PostMapping("/acoes")
-	public ResponseEntity<Acao> createAcao(@RequestBody Acao acao) {
-		try {
-			Acao _acao = acaoService.save(acao);
-			return new ResponseEntity<>(_acao, HttpStatus.CREATED);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
-	@DeleteMapping("/acoes/{id}")
-	public ResponseEntity<HttpStatus> deleteAcao(@PathVariable("id") String id) {
-		try {
-			acaoService.deleteById(id);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
-	@DeleteMapping("/acoes")
-	public ResponseEntity<HttpStatus> deleteAllAcoes() {
-		try {
-			acaoService.deleteAll();
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-
 	}
 
 }

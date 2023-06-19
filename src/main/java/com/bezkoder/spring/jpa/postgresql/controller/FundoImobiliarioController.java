@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/fiis")
 public class FundoImobiliarioController {
 	private final FundoImobiliarioService fundoImobiliarioService;
 
@@ -24,7 +24,7 @@ public class FundoImobiliarioController {
 		this.fundoImobiliarioService = fundoImobiliarioService;
 	}
 
-	@GetMapping("/fiis")
+	@GetMapping()
 	public ResponseEntity<List<FundoImobiliario>> getAllFiis() {
 		try {
 			List<FundoImobiliario> fundoImobiliarios = new ArrayList<FundoImobiliario>();
@@ -46,7 +46,7 @@ public class FundoImobiliarioController {
 		fundoImobiliarioService.atualizarFiis(listaFiis);
 	}
 
-	@GetMapping("/fiis/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<FundoImobiliario> getFiiByTicker(@PathVariable("id") String id) {
 		Optional<FundoImobiliario> fiiData = fundoImobiliarioService.findById(id);
 
@@ -55,37 +55,6 @@ public class FundoImobiliarioController {
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-	}
-
-	@PostMapping("/fiis")
-	public ResponseEntity<FundoImobiliario> createFii(@RequestBody FundoImobiliario fundoImobiliario) {
-		try {
-			FundoImobiliario _fundoImobiliario = fundoImobiliarioService.save(fundoImobiliario);
-			return new ResponseEntity<>(_fundoImobiliario, HttpStatus.CREATED);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
-	@DeleteMapping("/fiis/{id}")
-	public ResponseEntity<HttpStatus> deleteFii(@PathVariable("id") String id) {
-		try {
-			fundoImobiliarioService.deleteById(id);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
-	@DeleteMapping("/fiis")
-	public ResponseEntity<HttpStatus> deleteAllFiis() {
-		try {
-			fundoImobiliarioService.deleteAll();
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-
 	}
 
 }

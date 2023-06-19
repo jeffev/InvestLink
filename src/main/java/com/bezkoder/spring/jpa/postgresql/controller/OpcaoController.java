@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/opcoes")
 public class OpcaoController {
 	private final OpcaoService opcaoService;
 
@@ -22,7 +22,7 @@ public class OpcaoController {
 		this.opcaoService = opcaoService;
 	}
 
-	@GetMapping("/opcoes")
+	@GetMapping("")
 	public ResponseEntity<List<Opcao>> getAllOpcoes() {
 		try {
 			List<Opcao> opcoes = new ArrayList<Opcao>();
@@ -39,7 +39,22 @@ public class OpcaoController {
 		}
 	}
 
-	@PostMapping("/opcao")
+	@GetMapping("/{id}")
+	public ResponseEntity<List<Opcao>> getOpcao(@PathVariable("id") String id) {
+		try {
+			Optional<Opcao> opcao = opcaoService.findById(id);
+
+			if (opcao.isEmpty()) {
+				return new ResponseEntity(HttpStatus.NO_CONTENT);
+			}
+
+			return new ResponseEntity(opcao, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@PostMapping("/")
 	public ResponseEntity<Opcao> createOpcao(@RequestBody Opcao opcao) {
 		try {
 			Opcao _opcao = opcaoService.save(opcao);
@@ -49,7 +64,7 @@ public class OpcaoController {
 		}
 	}
 
-	@DeleteMapping("/opcoes/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<HttpStatus> deleteOpcao(@PathVariable("id") String id) {
 		try {
 			opcaoService.deleteById(id);
@@ -59,7 +74,7 @@ public class OpcaoController {
 		}
 	}
 
-	@DeleteMapping("/opcoes")
+	@DeleteMapping("/")
 	public ResponseEntity<HttpStatus> deleteAllOpcoes() {
 		try {
 			opcaoService.deleteAll();
