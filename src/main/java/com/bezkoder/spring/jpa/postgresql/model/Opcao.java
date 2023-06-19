@@ -22,8 +22,10 @@ public class Opcao {
 
     private Date vencimento;
 
+    @Enumerated(EnumType.ORDINAL)
     private TipoOpcao tipo;
 
+    @Enumerated(EnumType.ORDINAL)
     private TipoOperacao operacao;
 
     public String getTicker() {
