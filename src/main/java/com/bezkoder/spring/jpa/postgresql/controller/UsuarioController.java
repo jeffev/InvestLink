@@ -1,7 +1,9 @@
 package com.bezkoder.spring.jpa.postgresql.controller;
 
-import com.bezkoder.spring.jpa.postgresql.model.UsuarioModel;
-import com.bezkoder.spring.jpa.postgresql.repository.UsuarioRepository;
+import com.bezkoder.spring.jpa.postgresql.model.Usuario;
+import com.bezkoder.spring.jpa.postgresql.resources.UsuarioExistenteException;
+import com.bezkoder.spring.jpa.postgresql.service.UsuarioService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -10,18 +12,27 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/usuario")
 public class UsuarioController {
 
-    private final UsuarioRepository repository;
+    private final UsuarioService usuarioService;
     private final PasswordEncoder encoder;
 
-    public UsuarioController(UsuarioRepository repository, PasswordEncoder encoder) {
-        this.repository = repository;
+    public UsuarioController(UsuarioService usuarioService, PasswordEncoder encoder) {
+        this.usuarioService = usuarioService;
         this.encoder = encoder;
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UsuarioModel> salvar(@RequestBody UsuarioModel usuario) {
+    public ResponseEntity<Usuario> registrar(@RequestBody Usuario usuario) {
         usuario.setPassword(encoder.encode(usuario.getPassword()));
-        return ResponseEntity.ok(repository.save(usuario));
+        return ResponseEntity.ok(usuarioService.criarUsuario(usuario));
+    }
+
+    @RestControllerAdvice
+    public class GlobalExceptionHandler {
+
+        @ExceptionHandler(UsuarioExistenteException.class)
+        public ResponseEntity<String> handleUsuarioExistenteException(UsuarioExistenteException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
     }
 
 }

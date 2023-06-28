@@ -2,7 +2,7 @@ package com.bezkoder.spring.jpa.postgresql.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.bezkoder.spring.jpa.postgresql.model.UsuarioModel;
+import com.bezkoder.spring.jpa.postgresql.model.Usuario;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,7 +19,7 @@ import java.util.Date;
 
 public class JWTAutenticarFilter extends UsernamePasswordAuthenticationFilter {
 
-    public static final int TOKEN_EXPIRACAO = 600_000;
+    public static final int TOKEN_EXPIRACAO = 6_000_000;
     public static final String TOKEN_SENHA = "463408a1-54c9-4307-bb1c-6cced559f5a7";
 
     private final AuthenticationManager authenticationManager;
@@ -33,8 +33,8 @@ public class JWTAutenticarFilter extends UsernamePasswordAuthenticationFilter {
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
         try {
-            UsuarioModel usuario = new ObjectMapper()
-                    .readValue(request.getInputStream(), UsuarioModel.class);
+            Usuario usuario = new ObjectMapper()
+                    .readValue(request.getInputStream(), Usuario.class);
 
             return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     usuario.getLogin(),
@@ -54,14 +54,16 @@ public class JWTAutenticarFilter extends UsernamePasswordAuthenticationFilter {
                                             FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
 
-        UsuarioModel usuario = (UsuarioModel) authResult.getPrincipal();
+        Usuario usuario = (Usuario) authResult.getPrincipal();
 
         String token = JWT.create().
                 withSubject(usuario.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + TOKEN_EXPIRACAO))
                 .sign(Algorithm.HMAC512(TOKEN_SENHA));
 
-        response.getWriter().write(token);
+        usuario.setToken(token);
+
+        response.getWriter().write(usuario.toString());
         response.getWriter().flush();
     }
 }

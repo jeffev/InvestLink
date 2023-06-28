@@ -16,7 +16,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name="Usuario")
-public class UsuarioModel implements UserDetails {
+public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +26,15 @@ public class UsuarioModel implements UserDetails {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+
+    private String nome;
+
+    private String sobrenome;
+
+    private String email;
+
+    @Transient
+    private String token;
 
     @Enumerated(EnumType.ORDINAL)
     private Role role;
@@ -59,5 +68,17 @@ public class UsuarioModel implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"id\":" + id +
+                ", \"login\":\"" + login + "\"" +
+                ", \"nome\":\"" + nome + "\"" +
+                ", \"sobrenome\":\"" + sobrenome + "\"" +
+                ", \"email\":\"" + email + "\"" +
+                ", \"token\":\"" + token + "\"" +
+            "}";
     }
 }

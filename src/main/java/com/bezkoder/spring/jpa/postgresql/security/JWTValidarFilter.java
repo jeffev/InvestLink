@@ -2,7 +2,7 @@ package com.bezkoder.spring.jpa.postgresql.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.bezkoder.spring.jpa.postgresql.model.UsuarioModel;
+import com.bezkoder.spring.jpa.postgresql.model.Usuario;
 import com.bezkoder.spring.jpa.postgresql.service.DetalheUsuarioServiceImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -66,7 +66,7 @@ public class JWTValidarFilter extends BasicAuthenticationFilter {
             return null;
         }
 
-        UsuarioModel user = (UsuarioModel) usuarioService.loadUserByUsername(usuario);
+        Usuario user = (Usuario) usuarioService.loadUserByUsername(usuario);
 
         return new UsernamePasswordAuthenticationToken(usuario,null, user.getAuthorities());
     }
