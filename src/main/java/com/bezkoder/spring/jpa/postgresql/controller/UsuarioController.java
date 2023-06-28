@@ -7,7 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/usuario")
+@RequestMapping("/api/v1/usuario")
 public class UsuarioController {
 
     private final UsuarioRepository repository;
@@ -18,7 +18,7 @@ public class UsuarioController {
         this.encoder = encoder;
     }
 
-    @PostMapping("/salvar")
+    @PostMapping("/register")
     public ResponseEntity<UsuarioModel> salvar(@RequestBody UsuarioModel usuario) {
         usuario.setPassword(encoder.encode(usuario.getPassword()));
         return ResponseEntity.ok(repository.save(usuario));

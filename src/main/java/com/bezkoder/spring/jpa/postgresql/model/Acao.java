@@ -348,6 +348,7 @@ public class Acao {
     }
 
     public double getDescontoFormulaGrham () {
+        if (getValorFormulaGrham() < 0.1) return -999;
         return Math.round((100-(preco.doubleValue()/getValorFormulaGrham()*100)) * 100.0) / 100.0 ;
     }
 
