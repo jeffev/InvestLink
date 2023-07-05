@@ -11,16 +11,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name="Usuario")
+@Entity(name = "Usuario")
 public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Column(unique = true)
     private String login;
 
@@ -28,9 +30,7 @@ public class Usuario implements UserDetails {
     private String password;
 
     private String nome;
-
     private String sobrenome;
-
     private String email;
 
     @Transient
@@ -39,15 +39,17 @@ public class Usuario implements UserDetails {
     @Enumerated(EnumType.ORDINAL)
     private Role role;
 
+    @ManyToMany
+    private List<Acao> acoesFavoritas;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (role == null) return new ArrayList< GrantedAuthority >();
-        else return role.getAuthorities();
+        return role != null ? role.getAuthorities() : new ArrayList<>();
     }
 
     @Override
     public String getUsername() {
-        return this.login;
+        return login;
     }
 
     @Override
@@ -79,6 +81,6 @@ public class Usuario implements UserDetails {
                 ", \"sobrenome\":\"" + sobrenome + "\"" +
                 ", \"email\":\"" + email + "\"" +
                 ", \"token\":\"" + token + "\"" +
-            "}";
+                "}";
     }
 }

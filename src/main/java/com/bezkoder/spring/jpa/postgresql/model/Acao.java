@@ -98,10 +98,20 @@ public class Acao {
     private BigDecimal valorMercado;
 
     @Transient
+    private boolean isFavorita;
+
+    @Transient
     private int rankRoe;
 
     @Transient
     private int rankPl;
+
+    public Acao(String ticker) {
+        this.ticker = ticker;
+    }
+
+    public Acao() {
+    }
 
     public String getTicker() {
         return ticker;
@@ -372,6 +382,14 @@ public class Acao {
         this.rankPl = rankPl;
     }
 
+    public boolean isFavorita() {
+        return isFavorita;
+    }
+
+    public void setFavorita(boolean favorita) {
+        isFavorita = favorita;
+    }
+
     @Override
     public String toString() {
         return "Acao{" +
@@ -410,6 +428,7 @@ public class Acao {
                 ", rank1=" + rankRoe +
                 ", rank2=" + rankPl +
                 ", somaFormula=" + getSomaFormula () +
+                ", favorita=" + isFavorita () +
                 '}';
     }
 }

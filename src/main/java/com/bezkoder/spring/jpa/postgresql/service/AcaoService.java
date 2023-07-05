@@ -1,9 +1,11 @@
 package com.bezkoder.spring.jpa.postgresql.service;
 
 import com.bezkoder.spring.jpa.postgresql.model.Acao;
+import com.bezkoder.spring.jpa.postgresql.model.Usuario;
 import com.bezkoder.spring.jpa.postgresql.repository.AcaoRepository;
 import com.bezkoder.spring.jpa.postgresql.resources.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,7 +15,7 @@ import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
+
 @Service
 public class AcaoService {
     @Autowired
@@ -27,8 +29,17 @@ public class AcaoService {
         List<Acao> acoes = acaoRepository.findAll();
         int count = 0;
 
+        String login = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Acao> acoesFavoritasUsuario = acaoRepository.findAcoesFavoritasByUsuarioId(login);
+
         acoes.sort(Comparator.comparing(Acao::getRoe).reversed());
         for (Acao acao: acoes) {
+            if (acoesFavoritasUsuario.contains(acao)) {
+                acao.setFavorita(true);
+            } else {
+                acao.setFavorita(false);
+            }
+
             count += 1;
             acao.setRankRoe(count);
         }
@@ -91,8 +102,8 @@ public class AcaoService {
         reader.close();
     }
 
-    public Optional<Acao> findById(String id) {
-        return acaoRepository.findById(id);
+    public Acao findById(String ticker) {
+        return acaoRepository.findByTicker(ticker);
     }
 
     public Acao save(Acao acao) {

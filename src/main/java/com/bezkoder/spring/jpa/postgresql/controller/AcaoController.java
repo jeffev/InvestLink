@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
@@ -49,10 +48,10 @@ public class AcaoController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Acao> getAcaoByTicker(@PathVariable("id") String id) {
-		Optional<Acao> acaoData = acaoService.findById(id);
+		Acao acao = acaoService.findById(id);
 
-		if (acaoData.isPresent()) {
-			return new ResponseEntity<>(acaoData.get(), HttpStatus.OK);
+		if (acao != null) {
+			return new ResponseEntity<>(acao, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}

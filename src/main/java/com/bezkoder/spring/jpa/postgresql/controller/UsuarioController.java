@@ -26,13 +26,33 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.criarUsuario(usuario));
     }
 
+    @PostMapping("/adicionarFavorita/{ticker}")
+    public ResponseEntity<?> adicionarFavorita(@PathVariable("ticker") String ticker) {
+        try {
+            usuarioService.adicionarFavorita(ticker);
+
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/removerFavorita/{ticker}")
+    public ResponseEntity<?> removerFavorita(@PathVariable("ticker") String ticker) {
+        try {
+            usuarioService.removerFavorita(ticker);
+
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @RestControllerAdvice
     public class GlobalExceptionHandler {
-
         @ExceptionHandler(UsuarioExistenteException.class)
         public ResponseEntity<String> handleUsuarioExistenteException(UsuarioExistenteException ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
     }
-
 }
