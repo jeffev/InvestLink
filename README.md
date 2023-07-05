@@ -12,7 +12,6 @@
 
 ### Tecnologias Utilizadas
 
-- React.js
 - Java
 - Springboot
 - Hibernate
